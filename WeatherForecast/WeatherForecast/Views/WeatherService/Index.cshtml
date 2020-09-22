@@ -1,0 +1,564 @@
+﻿@using WeatherForecast.Models
+@model Blogweather
+
+@{
+    ViewBag.Title = "BD Weather";
+}
+
+<div class="app-header-bgimage">
+    <div class="app-wrap container-fluid">
+        <div class="form-group search mr-2">
+            <input type="text" class="form-control" id="AreaInput" aria-describedby="area" placeholder="Search a Area">
+        </div>
+        <button id="btnSubmit" class="btn btn-dark">Search</button>
+
+        <div class="container-fluid ">
+
+            <div class="row error-message left" style="display: none;">
+                <div class="col-12">
+
+                    <h1 class="text-center text-white"> No such city found!</h1>
+
+                </div>
+            </div>
+
+            <div class="row result">
+                <div class="col-sm-6 mt-2 mb-2 ">
+                    <div class="left-part">
+                        <section class="location">
+                            <div class="spinner-border text-white"></div>
+
+                            <div class="city">Dhaka, Bangladesh</div>
+                            <div class="date">Thursday, 10 January 2020</div>
+                        </section>
+                        <div>
+                            <img src="https://openweathermap.org/img/wn/10d@2x.png" class="weather-icon">
+                        </div>
+                        <div class="current">
+                            <div class="temp"><i class="fa fa-thermometer-empty" aria-hidden="true"> </i><span> </span><span id="value">15</span>°C</div>
+                            <div class="feels_like">Feels like <span class="feels_like_temp">15.5</span>°C</div>
+                            <div class="weather">Mild Rainy</div>
+                            <div class="hi-low">
+                                <div class="min">
+                                    <h3><i class="fas fa-arrow-down"></i> Min</h3>
+                                    <span class="min_temp">13</span> °C
+                                </div>
+                                <div class="max">
+                                    <h3><i class="fas fa-arrow-up"></i> Max</h3>
+                                    <span class="max_temp">16.07 </span> °C
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="sun-info">
+                            <div class="sunrise">
+                                <h3>Sunrise</h3>
+                                <span id="sunrise">6.07</span>
+                            </div>
+                            <div class="sunset">
+                                <h3>Sunset</h3>
+                                <span id="sunset">7.05</span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mt-3 mb-3">
+
+                            <div class="row ">
+
+                                <div class="col-4 col-md-4 info-data">
+                                    <h3><i class="fas fa-compass"></i> Wind Speed &amp; Direction</h3>
+                                    <span id="wind">77 km/h SE </span>
+                                </div>
+                                <div class="col-4 text-white col-md-4 info-data">
+                                    <h3><i class="fas fa-weight"></i> Pressure</h3>
+                                    <span id="pressure">1000hpa</span>
+                                </div>
+                                <div class="col-4 text-white col-md-4 info-data">
+                                    <h3>UV Index</h3>
+                                    <span id="uvi">5</span>
+                                </div>
+
+                                <div class="col-4 text-white col-md-4 info-data">
+                                    <h3><i class="fas fa-tint"></i> Dew point</h3>
+                                    <span id="dew_point">12°C</span>
+                                </div>
+                                <div class="col-4 text-white col-md-4 info-data">
+                                    <h3>Humidity</h3>
+                                    <span id="humidity">64%</span>
+                                </div>
+                                <div class="col-4 text-white col-md-4 info-data">
+                                    <h3><i class="fas fa-binoculars"></i> Visibility</h3>
+                                    <span id="visibility">10km</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6 mt-2 mb-2 windy-map">
+
+                    <div id="windy" style="width: 100%; height: 100%"></div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container-fluid mt-5 mb-5 weekendBgImage day6-card">
+
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12  mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" class="forcast-day-weather-icon" id="forcast-day-weather-icon1">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low1">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather1">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_1">Friday</h3>
+                            <span id="date_1">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" class="forcast-day-weather-icon" id="forcast-day-weather-icon2">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low2">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather2">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_2">Saturday</h3>
+                            <span id="date_2">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" class="forcast-day-weather-icon" id="forcast-day-weather-icon3">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low3">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather3">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_3">Sunday</h3>
+                            <span id="date_3">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" class="forcast-day-weather-icon" id="forcast-day-weather-icon4">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low4">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather4">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_4">Monday</h3>
+                            <span id="date_4">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" id="forcast-day-weather-icon5" class="forcast-day-weather-icon">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low5">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather5">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_5">Tuesday</h3>
+                            <span id="date_5">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="week-forcast float-left">
+                        <img src="https://openweathermap.org/img/wn/02d@2x.png" id="forcast-day-weather-icon6" class="forcast-day-weather-icon">
+                        <div class="forcast-day-hi-low" id="forcast-day-hi-low6">30°C / 20°C</div>
+                        <h3 class="forcast-day-weather" id="forcast-day-weather6">few cloud</h3>
+                    </div>
+                    <div class="float-right">
+                        <div class="week-date">
+                            <h3 id="day_6">Wednesday</h3>
+                            <span id="date_6">10 January 2020</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="container-fluid graph-div">
+    @*<h3 class="day-chart-headline">Day weather forcast</h3>*@
+    @*<canvas id="myChart" style="height:25vh; width:80vw"></canvas>*@
+    <div class="row">
+        <div class="col-12">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+        @*<div class="col-6">
+                <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+            </div>*@
+    </div>
+</div>
+
+<div class="container-fluid mt-5 mb-5 weather-condition-bd">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+            <h3 class="city-weather-headline">MAJOR CITIES WEATHER CONDITIONS</h3>
+            <div class="row">
+
+
+                @foreach (var city in Model.CurrentWeathers)
+                {
+
+                    var imageAddress = "https://openweathermap.org/img/wn/" + @city.weather_icon.ToString() + "@2x.png";
+
+                    var sunrise = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    sunrise = sunrise.AddSeconds(city.sunrise).ToLocalTime();
+
+                    var sunset = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                    sunset = sunset.AddSeconds(city.sunset).ToLocalTime();
+
+
+                    <div class="col-md-6 col-sm-6 mt-2 mb-2 major_city" id=@city.Id.ToString()>
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="week-forcast col-for-lg col-lg-6 col-md-6 col-sm-12">
+                                        <h3 class="city-forcast-weather text-center">@city.City.City_Name</h3>
+                                    </div>
+                                    <div class="dis-flex col-for-lg col-lg-6 col-md-6 col-sm-12">
+                                        <img src=@(imageAddress) class="city-forcast-day-weather-icon">
+                                        <h3 class="city-forcast-day-weather text-center"> @city.temp °C <i class="fas fa-caret-down"></i></h3>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="details">
+                                <hr class="px-2" />
+                                <div class="col-12"><h6 class="text-center">Feels Like : @city.feels_like °C</h6></div>
+                                <div class="col-12"><h6 class="text-center">Sunrise : @sunrise.ToString("HH:mm tt")</h6></div>
+                                <div class="col-12"><h6 class="text-center">Sunset : @sunset.ToString("hh:mm tt") </h6></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 mt-2 mb-2">
+            <div class="bd-weather-discrip">
+                <h3 class="day-chart-headline">Bangladesh weather</h3>
+                <p>
+                    Bangladesh has a tropical monsoon climate characterised by wide seasonal variations in rainfall, high temperatures,
+                    and high humidity. Regional climatic differences in this flat country are minor. Three seasons are generally recognised:
+                    a hot, muggy summer from March to June; a hot,humid and rainy monsoon season from June to November; and a warm-hot, dry
+                    winter from December to February.
+                    Winds are mostly from the north and northwest in the winter, blowing gently at 1 to 3 kilometres per hour (0.6 to 1.9 mph)
+                    in northern and central areas and 3 to 6 kilometres per hour (1.9 to 3.7 mph) near the coast.
+                    Heavy rainfall is characteristic of Bangladesh causing it to flood every year.
+                    About 80% of Bangladesh's rain falls during the monsoon season. The monsoons result from the contrasts between low and high
+                    air pressure areas that result from differential heating of land and waterAnnual monsoon flooding results in the loss of human
+                    life, damage to property and communication systems, and a shortage of drinking water, which leads to the spread of disease. For
+                    example, in 1988 two-thirds of Bangladesh's 64 districts
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h2 class="weather-heading">Latest Blogs and News</h2>
+<div class="container-fluid  mb-5 weatherblog_bg">
+
+    <div class="row">
+        @{
+            var i = 0;
+
+            foreach (var blog in Model.Blogs)
+
+            {
+                if (i < 4)
+                {
+                    <div class="col-sm-12 col-lg-6 col-md-6 mb-3 ">
+                        <div class="row p-2 m-2">
+                            <div class="col-md-4 col-sm-6">
+                                <img class="home_blog_thumb" alt="fall 1" data-src="https://wordpress.accuweather.com/wp-content/uploads/2017/10/fall-1-1.jpg?h=128"
+                                     data-srcset="" data-sizes="" title="fall 1"
+                                     src="@blog.imagePath.ToString()" style="height:200px;" srcset="" sizes="">
+                                <P class="text-white"><small>@blog.DateAdded.ToString("MMMM, dd yyyy")</small></P>
+                            </div>
+                            <div class="col-md-8 col-sm-6">
+                                <div class="">
+                                    <h5 class="card-title weather-blog-title">@blog.title<span class="blog_post_type">@blog.type</span></h5>
+                                    <p class="weather-blog-body">
+                                        @blog.description.Substring(0, 100)<span>....</span>
+                                    </p>
+                                    @*<a href="#" class="text-style">Read More....</a>*@
+                                    @Html.ActionLink("Read More", "ViewBlog", "Blog", new { id = blog.id }, new { @class = "btn-readmore" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        @Html.ActionLink("For more", "Index", "Blog", new { area = "" }, new { @class = "btn btn-block Read-more-btn" })
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+
+    @*<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>*@
+    @*<script src="~/Scripts/myscript.js"></script>*@
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+
+    <script>
+
+        $(function () {
+
+
+            $(".major_city").click(function (e) {
+                var eventID = $(this).attr('id');
+                console.log(eventID);
+                $("#" + eventID + " .float-right .fas").toggleClass('.rotate-icon');
+                $("#" + eventID + " .details").fadeToggle(500);
+            });
+
+
+            const options = {
+                // Required: API key
+                key: '5lhGO30k1wtTsASFAEw0K6YqMDCYeub4', // REPLACE WITH YOUR KEY !!!
+                // Put additional console output
+                // Optional: Initial state of the map
+                lat: 23.8103,
+                lon: 90.4125,
+                zoom: 7.1,
+            };
+
+
+            // Initialize Windy API
+            windyInit(options, windyAPI => {
+                // windyAPI is ready, and contain 'map', 'store',
+                // 'picker' and other usefull stuff
+                const { store, map } = windyAPI;
+                // .map is instance of Leaflet map
+                store.set('overlay', 'clouds');
+                L.marker([options.lat, options.lon]).addTo(map);
+            });
+
+
+
+            $("#btnSubmit").click(() => {
+
+                const location = $("#AreaInput").val();
+                //alert(location);
+
+                if (location !== "") {
+                    $(".spinner-border").fadeIn();
+                    console.log(location);
+                    loadData(location);
+                    //var marker = L.marker([51.5, -0.09]).addTo(map);
+                }
+            });
+
+            $(".spinner-border").fadeIn();
+            loadData("Dhaka");
+            $(".spinner-border").fadeOut();
+
+
+            function loadData(location = "Dhaka") {
+                $.ajax({
+                    url: "https://localhost:44339/WeatherService/GetWeatherInfo/",
+                    data: { location: location },
+                    type: "POST",
+                    success: function (data) {
+                        console.log(location);
+                        var d = JSON.parse(data);
+                        console.log(d);
+                        $("#value").text(d.currentWeather.temp);
+                        $(".city").text(d.City_Name + ', ' + d.Country);
+                        var today = new Date();
+                        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+
+                        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                        var dayName = days[today.getDay()];
+                        var date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear();
+
+                        $(".date").text(dayName + ', ' + date);
+                        $(".spinner-border").fadeOut();
+
+                        var sunrise = convertUnix(d.currentWeather.sunrise);
+                        console.log(sunrise);
+                        $("#sunrise").text(sunrise);
+
+                        var sunset = convertUnix(d.currentWeather.sunset);
+                        console.log(sunset);
+                        $("#sunset").text(sunset);
+
+                        $(".feels_like_temp").text(d.currentWeather.feels_like);
+                        $(".weather").text(d.currentWeather.weather_main);
+                        $(".min_temp").text(d.dailyForcasts[0].temp_min);
+                        $(".max_temp").text(d.dailyForcasts[0].temp_max);
+
+                        var wind_direction = degToCompass(d.currentWeather.wind_deg);
+                        $("#wind").text(d.currentWeather.wind_speed + " KM/H " + wind_direction);
+                        $("#pressure").text(d.currentWeather.pressure + " hpa");
+                        $("#uvi").text(d.currentWeather.uvi);
+                        $("#dew_point").text(d.currentWeather.dew_point);
+                        $("#humidity").text(d.currentWeather.humidity + "%");
+                        $("#visibility").text(d.currentWeather.visibility + " m");
+
+
+                        for (var i = 1; i <= 6; i++) {
+                            var next = new Date();
+                            next.setDate(next.getDate() + i);
+
+                            var date = next.getDate() + " " + monthNames[next.getMonth()] + " " + next.getFullYear();
+                            $("#date_" + i).text(date);
+                            $("#day_" + i).text(days[next.getDay()]);
+                            $("#forcast-day-weather-icon" + i).attr('src', "https://openweathermap.org/img/wn/" + d.dailyForcasts[i].weather_icon + "@@2x.png")
+                            $("#forcast-day-hi-low" + i).text(d.dailyForcasts[i].temp_max + "°C / " + d.dailyForcasts[i].temp_min + "°C");
+                            $("#forcast-day-weather" + i).text(d.dailyForcasts[i].weather_description);
+                        }
+
+                        plotGraph(d.dailyForcasts);
+
+                        $(".result").fadeIn();
+                        $(".day6-card").fadeIn();
+                        $(".graph-div").fadeIn();
+                        $(".error-message").fadeOut();
+                    },
+                    error: function () {
+                        //alert("No city named " + location + " found");
+                        $(".result").fadeOut();
+                        $(".day6-card").fadeOut();
+                        $(".graph-div").fadeOut();
+                        $(".spinner-border").fadeOut();
+                        $(".error-message").fadeIn();
+                    }
+                });
+            }
+
+
+
+        });
+
+
+        function convertUnix(unixtimestamp) {
+            var date = new Date(unixtimestamp * 1000);
+            return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        }
+
+        function degToCompass(num) {
+            var val = Math.floor((num / 22.5) + 0.5);
+            var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+            return arr[(val % 16)];
+        }
+
+
+        function plotGraph(forecast) {
+            var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            var today1 = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+            console.log(forecast);
+
+            var datax = [
+                { x: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), y: 32 },
+                { x: new Date(today1.setDate(today.getDate() + 1)), y: 38 },
+                { x: new Date(today1.setDate(today.getDate() + 2)), y: 20 },
+                { x: new Date(today1.setDate(today.getDate() + 3)), y: 28 },
+                { x: new Date(today1.setDate(today.getDate() + 4)), y: 23 },
+                { x: new Date(today1.setDate(today.getDate() + 5)), y: 27 },
+                { x: new Date(today1.setDate(today.getDate() + 6)), y: 28 },
+                { x: new Date(today1.setDate(today.getDate() + 7)), y: 28 },
+            ];
+
+            console.log(datax);
+
+            let i = 0;
+            datax.forEach((d) => {
+                console.log(d.x);
+                d.y = forecast[i++].temp_max;
+                d["indexLabel"] = String(d.y) + "°C";
+            });
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "Next 7 Days Max Temperature Forecast"
+                },
+
+                axisY: {
+                    title: "Temperature in Celcius",
+                    valueFormatString: "#0",
+                    suffix: "",
+                },
+                axisX: {
+                    valueFormatString: "DDDD",
+                    minimum: datax[0].x,
+                    maximum: (datax[datax.length - 1].x)
+                },
+                data: [{
+                    xValueType: "dateTime",
+                    type: "splineArea",
+                    color: "rgba(153,135,225,.7)",
+                    markerSize: 5,
+                    dataPoints: datax
+                }]
+            });
+            chart.render();
+        }
+
+    </script>
+
+}
+
+
+

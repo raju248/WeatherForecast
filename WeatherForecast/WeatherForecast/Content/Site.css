@@ -1,0 +1,43 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
+
+
+
+/*body {
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}*/
+
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+.brand-name {
+    font-family: 'Pacifico';
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand-name img {
+    margin-right: 5px;
+}
+
+
+.blog-card-image {
+    width: 100% !important;
+    height: 100%;
+}

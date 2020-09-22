@@ -1,0 +1,33 @@
+1.page->
+    registration:
+        field : []
+2.page->
+    login:
+        field:[phone,password]
+3.page->
+    home:
+       context:[logo,top rent setion,categoriwez item               list,nav,footer]
+          in nav->logo,search,add to cart button,sell on dhar                        button,Myprofile button 
+4.page->
+    my profile:
+       context:[account info, give rent,take rent,product status]
+
+5.page->
+    sell on dhar:
+       field: [image/multiiamge,model,brand,details,original price                ,rent price, from where to take(means from where                   product would be taken), product condition(means                   product ar obostha ki valo na kharap naki                          motamoti)]
+       info from admin : admin condition when want to sell a                                product
+6.page->
+    product_details:
+        context:image/multiiamge,model,brand,details,rent                   price,rating,product status,check availability,add to cart                    button,buy/request  button,saved button
+        info from admin : admin condition when want to rent a                                product
+7.page->
+    after click buy or request:
+         context: [choice(1.cash on delivery                    2.payment)],name,address,phone.product                    details,days to rent,coupon(if have),
+         after submit admin send a noti:
+                   about request and product 
+8.page->
+    product status:
+        context:product name,product status,
+        info: after reciving product user click accpet to confirm         they get it then days counting start 
+        product owner also get notification about product status         and all
+      

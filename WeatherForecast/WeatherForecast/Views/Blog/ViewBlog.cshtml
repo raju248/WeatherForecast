@@ -1,0 +1,75 @@
+﻿@using WeatherForecast.Models
+@model singleRelatedblog
+@{
+    ViewBag.Title = @Model.singleBlog.title;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <div class=" card  blog-article p-2">
+                <!---->
+                <h1 class="title_hasPartner">
+                    @Model.singleBlog.title
+                </h1>
+                <div class="byline-section">
+                    <!---->
+                    <p>
+                        <a href="#"  class="category">@Model.singleBlog.type</a>,<span class="date">
+                            Published @Model.singleBlog.DateAdded.ToString("MMMM dd, yyyy")
+                            <!---->
+                        </span>
+                    </p>
+                </div>
+                <div class="share share-container"></div>
+
+                <div class="inline-media mt-3 mb-3">
+                    <div class="media-container">
+                        <div class="article-image">
+                            <img alt="" data-srcset="" data-sizes="" class="component-image responsive-img"
+                                 src="@Model.singleBlog.imagePath.ToString()"
+                                 srcset="" sizes="">
+                        </div>
+                    </div>
+                </div>
+                <p class="paragraph-block ">
+                    @Model.singleBlog.description
+                </p>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <h2 class="weather-heading mt-3 text-center">Related Post</h2>
+
+            <div class="row">
+
+                <div class="col-12">
+
+                    @foreach (var blog in Model.RelatedBlogs)
+                    {
+                        <div class="row mt-2">
+
+                            <div class="col-12">
+                                <div class="blog-body">
+                                    <img alt="" data-src=""
+                                         class="component-item-image"
+                                         src="@blog.imagePath.ToString()" />
+                                    <p class="relared-blog-title mb-2">  @blog.title</p>
+                                    <p class="relared-blog-body mt-2">
+                                        @blog.description.Substring(0, 1)<span>....</span>
+                                    </p>
+                                    @Html.ActionLink("Read More", "ViewBlog", new { id = blog.id }, new { @class = "btn-readmore" })
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

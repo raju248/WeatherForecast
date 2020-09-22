@@ -1,0 +1,300 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <span class="navbar-toggler-icon show-btn" id="open-sidenav"><i class='fas fa-align-justify' style='font-size:24px'></i></span><h1 id="heading" class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+
+        </div>
+    </div>
+
+    <div class="container-fluid graph-div">
+        @*<h3 class="day-chart-headline">Day weather forcast</h3>*@
+        @*<canvas id="myChart" style="height:25vh; width:80vw"></canvas>*@
+        <div class="row">
+            <div class="col-12">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            </div>
+            @*<div class="col-6">
+                 <div id="chartContainer1" style="height: 370px; width: 100%;"></div>
+                </div>*@
+        </div>
+    </div>
+
+    <h2>Month Weather Info</h2>
+    <div class="container-fluid mt-5 mb-5 weekendBgImage">
+
+        <div class="row">
+
+            <div class="col-sm-4 mt-2 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="week-forcast float-left">
+                            <h3 class="city-forcast-weather">Monday</h3>
+                            <span>10 January 2020</span>
+                        </div>
+                        <div class="float-right d-flex">
+                            <img src="https://openweathermap.org/img/wn/02d@2x.png" class="city-forcast-day-weather-icon">
+                            <h3 class="city-forcast-day-weather"> 27°</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mt-2 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="week-forcast float-left">
+                            <h3 class="city-forcast-weather">Monday</h3>
+                            <span>10 January 2020</span>
+                        </div>
+                        <div class="float-right d-flex">
+                            <img src="https://openweathermap.org/img/wn/02d@2x.png" class="city-forcast-day-weather-icon">
+                            <h3 class="city-forcast-day-weather"> 27°</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mt-2 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="week-forcast float-left">
+                            <h3 class="city-forcast-weather">Monday</h3>
+                            <span>10 January 2020</span>
+                        </div>
+                        <div class="float-right d-flex">
+                            <img src="https://openweathermap.org/img/wn/02d@2x.png" class="city-forcast-day-weather-icon">
+                            <h3 class="city-forcast-day-weather"> 27°</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mt-2 mb-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="week-forcast float-left">
+                            <h3 class="city-forcast-weather">Monday</h3>
+                            <span>10 January 2020</span>
+                        </div>
+                        <div class="float-right d-flex">
+                            <img src="https://openweathermap.org/img/wn/02d@2x.png" class="city-forcast-day-weather-icon">
+                            <h3 class="city-forcast-day-weather"> 27°</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+            crossorigin="anonymous"></script>
+
+    @*<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>*@
+    @*<script src="~/Scripts/myscript.js"></script>*@
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+
+    <script>
+
+        $(function () {
+
+
+            $(".major_city").click(function (e) {
+                var eventID = $(this).attr('id');
+                $("#" + eventID + " .float-right .fas").toggleClass('rotate-icon');
+                $("#" + eventID + " .details").fadeToggle(500);
+            });
+
+
+ 
+
+
+            $("#btnSubmit").click(() => {
+
+                const location = $("#AreaInput").val();
+                alert(location);
+
+                if (location !== "") {
+                    $(".spinner-border").fadeIn();
+                    console.log(location);
+                    loadData(location);
+                    //var marker = L.marker([51.5, -0.09]).addTo(map);
+                }
+            });
+
+            $(".spinner-border").fadeIn();
+            loadData("Dhaka");
+            $(".spinner-border").fadeOut();
+
+
+            function loadData(location = "Dhaka") {
+                $.ajax({
+                    url: "https://localhost:44339/WeatherService/GetWeatherInfo/",
+                    data: { location: location },
+                    type: "POST",
+                    success: function (data) {
+                        console.log(location);
+                        var d = JSON.parse(data);
+                        console.log(d);
+                        $("#value").text(d.currentWeather.temp);
+                        $(".city").text(d.City_Name + ', ' + d.Country);
+                        var today = new Date();
+                        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+
+                        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                        var dayName = days[today.getDay()];
+                        var date = today.getDate() + " " + monthNames[today.getMonth()] + " " + today.getFullYear();
+
+                        $(".date").text(dayName + ', ' + date);
+                        $(".spinner-border").fadeOut();
+
+                        var sunrise = convertUnix(d.currentWeather.sunrise);
+                        console.log(sunrise);
+                        $("#sunrise").text(sunrise);
+
+                        var sunset = convertUnix(d.currentWeather.sunset);
+                        console.log(sunset);
+                        $("#sunset").text(sunset);
+
+                        $(".feels_like_temp").text(d.currentWeather.feels_like);
+                        $(".weather").text(d.currentWeather.weather_main);
+                        $(".min_temp").text(d.dailyForcasts[0].temp_min);
+                        $(".max_temp").text(d.dailyForcasts[0].temp_max);
+
+                        var wind_direction = degToCompass(d.currentWeather.wind_deg);
+                        $("#wind").text(d.currentWeather.wind_speed + " KM/H " + wind_direction);
+                        $("#pressure").text(d.currentWeather.pressure + " hpa");
+                        $("#uvi").text(d.currentWeather.uvi);
+                        $("#dew_point").text(d.currentWeather.dew_point);
+                        $("#humidity").text(d.currentWeather.humidity + "%");
+                        $("#visibility").text(d.currentWeather.visibility + " m");
+
+
+                        for (var i = 1; i <= 6; i++) {
+                            var next = new Date();
+                            next.setDate(next.getDate() + i);
+
+                            var date = next.getDate() + " " + monthNames[next.getMonth()] + " " + next.getFullYear();
+                            $("#date_" + i).text(date);
+                            $("#day_" + i).text(days[next.getDay()]);
+                            $("#forcast-day-weather-icon" + i).attr('src', "https://openweathermap.org/img/wn/" + d.dailyForcasts[i].weather_icon + "@@2x.png")
+                            $("#forcast-day-hi-low" + i).text(d.dailyForcasts[i].temp_max + "°C / " + d.dailyForcasts[i].temp_min + "°C");
+                            $("#forcast-day-weather" + i).text(d.dailyForcasts[i].weather_description);
+                        }
+
+                        plotGraph(d.dailyForcasts);
+
+                    },
+                    error: function () {
+                        alert("No city named " + location + " found");
+                        $(".spinner-border").fadeOut();
+                    }
+                });
+            }
+
+
+
+        });
+
+
+        function convertUnix(unixtimestamp) {
+            var date = new Date(unixtimestamp * 1000);
+            return date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        }
+
+        function degToCompass(num) {
+            var val = Math.floor((num / 22.5) + 0.5);
+            var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+            return arr[(val % 16)];
+        }
+
+
+        function plotGraph(forecast) {
+            var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            var today1 = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+
+            console.log(forecast);
+
+            var datax = [
+                { x: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()), y: 32 },
+                { x: new Date(today1.setDate(today.getDate() + 1)), y: 38 },
+                { x: new Date(today1.setDate(today.getDate() + 2)), y: 20 },
+                { x: new Date(today1.setDate(today.getDate() + 3)), y: 28 },
+                { x: new Date(today1.setDate(today.getDate() + 4)), y: 23 },
+                { x: new Date(today1.setDate(today.getDate() + 5)), y: 27 },
+                { x: new Date(today1.setDate(today.getDate() + 6)), y: 28 },
+                { x: new Date(today1.setDate(today.getDate() + 7)), y: 28 },
+            ];
+
+            console.log(datax);
+
+            let i = 0;
+            datax.forEach((d) => {
+                console.log(d.x);
+                d.y = forecast[i++].temp_max;
+                d["indexLabel"] = String(d.y) + "°C";
+            });
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,
+                title: {
+                    text: "7 Days Weather Forecast"
+                },
+
+                axisY: {
+                    title: "Temperature in Celcius",
+                    valueFormatString: "#0",
+                    suffix: "",
+                },
+                axisX: {
+                    valueFormatString: "DDDD",
+                    minimum: datax[0].x,
+                    maximum: (datax[datax.length - 1].x)
+                },
+                data: [{
+                    xValueType: "dateTime",
+                    type: "splineArea",
+                    color: "rgba(153,135,225,.7)",
+                    markerSize: 5,
+                    dataPoints: datax
+                }]
+            });
+            chart.render();
+        }
+
+    </script>
+
+    <script>
+
+        var opsdnav = document.getElementById("open-sidenav"),
+            open = document.getElementById("sidebarMenu"),
+            close = document.getElementById("nav-close");
+       
+        opsdnav.addEventListener("click", function () {
+            open.classList.toggle("open");
+            console.log("open")
+        });
+        close.addEventListener("click", function () {
+            open.classList.toggle("open");
+            console.log("open")
+        });
+
+    </script>
+
+}
+
+

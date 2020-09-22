@@ -1,0 +1,51 @@
+﻿@model WeatherForecast.Models.AdminLoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+        Layout = "~/Views/Shared/adminAccount.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container-fluid login-bgimage d-flex flex-column justify-content-center align-items-center ">
+        <div class="form-horizontal form-shadow col-lg-3 col-md-6 col-sm-12">
+            <p class="text-center display-3"><i class="fas fa-user-circle"></i></p>
+            <h4 class="text-center">Login</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger " })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-12" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-12">
+                    <input type="submit" value="Login" class="col-md-12 btn btn-primary" />
+                </div>
+            </div>
+
+            <div class="text-center">
+                @Html.ActionLink("Click here to Sign up", "Register", "Admin", new { area = "" }, new { @class = "text-center" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+} 

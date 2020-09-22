@@ -1,0 +1,99 @@
+﻿@model WeatherForecast.Models.BlogCreateViewModel
+
+@{
+    ViewBag.Title = "AddBlog";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+
+<main role="main" class="col-md-9  col-lg-9 px-md-4">
+    @using (Html.BeginForm("AddBlog", "Admin", FormMethod.Post, new { id = "form-0", enctype = "multipart/form-data" }))
+    {
+
+
+        <span class="navbar-toggler-icon show-btn mt-2" id="open-sidenav"><i class='fas fa-align-justify' style='font-size:24px'></i></span>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Add new blog or news</h1>
+        </div>
+        <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card-body">
+
+                @Html.AntiForgeryToken()
+
+                @{
+                    if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success" style="margin: 15px;" role="alert">
+                            @TempData["Success"]
+                        </div>
+                    }
+                }
+
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-6 font-weight-bolder" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-6 font-weight-bolder" })
+                        <div class="col-md-12">
+                            @Html.EnumDropDownListFor(model => model.Type, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-6 font-weight-bolder" })
+                        <div class="col-md-12">
+                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Picture, htmlAttributes: new { @class = "control-label col-md-6 font-weight-bolder" })
+                        <div class="col-md-12">
+                            <input type="file" class="form-control-file" id="Picture" name="Picture">
+                            @Html.ValidationMessageFor(model => model.Picture, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Add Post" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    }
+    </main>
+
+
+
+<script>
+
+        var opsdnav = document.getElementById("open-sidenav"),
+            open = document.getElementById("sidebarMenu"),
+            close = document.getElementById("nav-close");
+
+        opsdnav.addEventListener("click", function () {
+            open.classList.toggle("open");
+            console.log("open")
+        });
+        close.addEventListener("click", function () {
+            open.classList.toggle("open");
+            console.log("open")
+        });
+
+</script>
